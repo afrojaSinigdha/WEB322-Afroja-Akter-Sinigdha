@@ -10,16 +10,9 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
-app.use(express.urlencoded({ extended: true }));
-// Configure middleware
-
-app.use(express.static('public'));
-app.get('/', (req, res) => {
-    const html = `
-        <!DOCTYPE html>
-        <html>
+function template(title, html,menu) {
+    return `<html>
         <head>
-            <title>Login</title>
             <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -27,17 +20,39 @@ app.get('/', (req, res) => {
             crossorigin="anonymous"/>
             <link rel="stylesheet" type="text/css" href="/styles.css">
         </head>
-        <body>
-            <h1>Login</h1>
+        <body class="container">
+            <div>${menu}</div>
+            <h1>${title}</h1>
+            <div>
+                ${html}
+            </div> 
+        </body>
+    </html>`;
+}
+app.use(express.urlencoded({ extended: true }));
+// Configure middleware
+
+app.use(express.static('public'));
+
+app.get('/', (req, res) => {
+    const html = `
+        
             <form action="/login" method="post">
                 <input type="text" name="username" placeholder="Username" required>
                 <input type="password" name="password" placeholder="Password" required>
                 <button type="submit">Login</button>
             </form>
-        </body>
-        </html>
+        
     `;
-    res.send(html);
+    const menu = `
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/list">List</a></li>
+            </ul>
+        </nav>
+    `;
+    res.send(template('Login', html,menu));
 });
 
 app.post('/login', (req, res) => {
@@ -69,23 +84,7 @@ app.get("/list", (req, res) => {
         });
 
         const tableHTML = `
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <title>User List</title>
-                
-                <link
-                href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-                rel="stylesheet"
-                integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
-                crossorigin="anonymous"/>
-                <link rel="stylesheet" type="text/css" href="/styles.css">
-            </head>
-            <body>
-                <div class= "container" class="listHeader">
-                    <h1>User List</h1>
-                </div>
-                <div class= "container">
+            
                 <table>
                     <thead>
                         <tr>
@@ -97,17 +96,23 @@ app.get("/list", (req, res) => {
                         ${tableRows.join("")}
                     </tbody>
                 </table>
-                </div>
-            </body>
-            </html>
+                
+        `;
+        const menu = `
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/list">List</a></li>
+            </ul>
+        </nav>
         `;
 
-        res.send(tableHTML);
+        res.send(template('List',tableHTML,menu));
     } else {
         res.send('Invalid data format for the list page.');
     }
 });
-  
+
 
 app.get('/detail/:id', (req, res) => {
     
@@ -121,31 +126,25 @@ app.get('/detail/:id', (req, res) => {
 
                 // Create HTML to display user details
                 const html = `
-                    <!DOCTYPE html>
-                    <html>
-                    <head>
-                        <title>User Detail</title>
-                        <link
-                        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-                        rel="stylesheet"
-                        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
-                        crossorigin="anonymous"/>
-                        <link rel="stylesheet" type="text/css" href="/styles.css">
-                    </head>
-                    <body>
-                        <div class="container">
-                        <h1>User Detail</h1>
+                    
                         <p><strong>Full Name:</strong> ${firstName} ${lastName}</p>
                         <p><strong>Email:</strong> ${email}</p>
                         <p><strong>Date of Birth:</strong> ${dob}</p>
                         <p><strong>Company:</strong> ${company}</p>
                         <p><strong>Phone:</strong> ${phone}</p>
                         <a href="/list">Back to List</a></div>
-                    </body>
-                    </html>
+                    
+                `;
+                const menu = `
+                <nav>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/list">List</a></li>
+                    </ul>
+                </nav>
                 `;
 
-                res.send(html);
+                res.send(template('Details',html,menu));
             } else {
                 res.send('User not found.');
             }
@@ -168,3 +167,49 @@ const port = 3000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
+
+
+/*<!DOCTYPE html>
+            <html>
+            <head>
+                <title>User List</title>
+                
+                <link
+                href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+                rel="stylesheet"
+                integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+                crossorigin="anonymous"/>
+                <link rel="stylesheet" type="text/css" href="/styles.css">
+            </head>
+            <body>
+                <nav>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/list">List</a></li>
+                    </ul>
+                 </nav>
+                <div class= "container" class="listHeader">
+                    
+                    <h1>User List</h1>
+                </div>
+                <div class= "container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Full Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${tableRows.join("")}
+                    </tbody>
+                </table>
+                </div>
+            </body>
+            </html>
+        `;
+
+        res.send(tableHTML);
+    } else {
+        res.send('Invalid data format for the list page.');
+    }*/ 
