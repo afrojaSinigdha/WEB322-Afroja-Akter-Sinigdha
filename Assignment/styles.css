@@ -1,0 +1,115 @@
+
+h1 {
+    text-align: center; /* Center the heading horizontally */
+    margin-bottom: 30px; 
+    color: rgb(5, 114, 161);
+  }
+  
+ 
+  
+  .container {
+    /* max-width: 960px; */
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  
+   nav {
+    background-color: #a74c1b;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+    border-radius: 5px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    display: inline;
+}
+
+a {
+    color: #12ddda;
+    text-decoration: none;
+    margin: 0 20px;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: 500;
+}
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  th, td {
+    border: 1px solid #08024a; /* Light brown border */
+    padding: 15px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #31b5f2; /* Dark brown header background */
+    color: #fff;
+  }
+  
+  form {
+    max-width: 300px;
+    margin: 0 auto; /* Center the form horizontally */
+    padding: 30px;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the form vertically */
+  }
+  
+  
+  input[type="text"], input[type="password"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #18adec; /* Light brown border */
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  button {
+    background-color: #18adec; /* Light brown button color */
+    color: #fff;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #1edaca; /* Slightly darker brown on hover */
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    nav a {
+        margin: 0 10px;
+        font-size: 16px;
+    }
+  
+    table {
+        font-size: 14px;
+    }
+  
+    form {
+        max-width: 100%;
+    }
+  }
+  
