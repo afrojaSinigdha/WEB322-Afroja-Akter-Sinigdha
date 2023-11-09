@@ -161,7 +161,6 @@ app.get('/styles.css', (req, res) => {
     res.sendFile(__dirname + '/styles.css');
 });
 
-
 // Start the server
 const port = 3000;
 app.listen(port, () => {
