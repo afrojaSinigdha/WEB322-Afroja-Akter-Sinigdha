@@ -1,0 +1,26 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head.ejs') %>
+</head>
+<body class="container">
+    <%- include('partials/topnav.ejs') %>
+    <h1>Detail</h1>
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">
+                <%= user.firstname %> <%= user.lastname %>
+            </h5>
+            <p class="card-text">
+            <div>
+                <%= user.company %>
+            </div>
+            <a href="mailto: <%= user.email %>">Send Email</a>
+            </p>
+            <a href="/list" class="btn btn-primary">Go Back</a>
+        </div>
+    </div>
+</body>
+</html>

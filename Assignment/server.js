@@ -1,29 +1,30 @@
+const express = require("express");
+const pageRoutes = require("./routes/page.routes");
+const apiRoutes = require("./routes/api.routes");
+const {connect, sync} = require("./db");
 
-const express = require('express');
 const app = express();
-const pageRoutes = require("./routes/page.routes")
-const apiRoutes = require("./routes/api.routes")
+const port = 3000;
 
-const session = require('express-session');
+//SET THE VIEW ENGINE
+app.set("view engine", "ejs");
+app.set("views", __dirname + "/views");
+app.use(express.json());
 
-app.use(session({
-    secret: 'your-secret-key',
-    resave: false,
-    saveUninitialized: true
-}));
-
-app.use(express.urlencoded({ extended: true }));
-// Configure middleware
-
-app.use(express.static('public'));
+//Database stuff
+ connect();
+ sync();
 
 // ROUTE HANDLING
 app.use(pageRoutes);
-app.use("/api",apiRoutes);
+app.use("/api", apiRoutes);
 
 
-// Start the server
-const port = 3000;
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+app.listen(port,()=>{
+console.log(`Listening on port ${port}`);
 });
+
+
+
+// LISTEN FOR REQUESTS!!!!
+

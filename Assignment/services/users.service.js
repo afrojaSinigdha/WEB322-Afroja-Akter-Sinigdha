@@ -1,30 +1,35 @@
-const fs = require('fs');
-const usersData = JSON.parse(fs.readFileSync('./data/fakeUsers.json', 'utf8'));
+const {models} = require("../db");
 
-class UsersService{
+class UsersService {
+  static async find() {
+    return await models.User.findAll();
+  }
 
-    static findAll(){
+  static async findById(id) {
+   
+    return await models.User.findByPk(id);
+  }
+  
 
-        return users;
+  static async create(user){
+    return await models.User.create(user);
+  }
+
+  static async delete(id) {
+    try {
+      const user = await models.User.findByPk(id);
+      if (!user) {
+        throw new Error(`User with id ${id} not found`);
+      }
+      await user.destroy();
+      return true;
+      
+    } catch (error) {
+
+      console.error('Error in deleting user:', error.message);
+      throw error;
     }
-
-   static findById(id){
-       const user = users.find((user) =>{
-
-            return user.id === parseInt(id);
-        });
-
-       return user;
-
-    }
-
-    static delete(id) {
-        const index = users.findIndex(user => user.id === parseInt(id));
-        if (index > -1) {
-            users.splice(index, 1);
-            UsersService._saveToFile();
-        }
-    }
+  }
 
 }
 
